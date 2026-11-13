@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orbit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand"><img src="icon.png" alt=""><span>ORBIT</span></div>
+
+      <div class="group transport">
+        <button id="playBtn" class="play" title="Play / Stop (Space)"><svg viewBox="0 0 24 24"><path id="playIcon" d="M7 4.5v15l13-7.5z"/></svg></button>
+        <div class="field bpm" title="Tempo — drag up/down or type">
+          <label>BPM</label>
+          <input id="bpm" type="number" min="30" max="300" step="1" value="120">
+        </div>
+      </div>
+
+      <div class="group timing">
+        <div class="field"><label>Loop</label>
+          <select id="bars"><option value="0.5">½ bar</option><option value="1">1 bar</option><option value="2">2 bars</option><option value="4">4 bars</option><option value="8">8 bars</option></select>
+        </div>
+        <div class="field"><label>Grid</label>
+          <div class="seg" id="grid"></div>
+        </div>
+        <button id="snapBtn" class="toggle on" title="Snap notes to the grid">Snap</button>
+        <div class="field swing" title="Swing — delays every second 16th note"><label>Swing <span id="swingVal" class="mono">0%</span></label><input id="swing" type="range" min="0" max="1" step="0.01" value="0"></div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="group files">
+        <button id="newBtn" class="ghost" title="New project (⌘N)">New</button>
+        <button id="openBtn" class="ghost" title="Open project (⌘O)">Open</button>
+        <button id="saveBtn" class="ghost" title="Save project (⌘S)">Save</button>
+        <button id="exportBtn" class="accent" title="Export MP3 / WAV / MIDI">Export</button>
+      </div>
+    </header>
+
+    <main>
+      <aside class="lanes">
+        <div class="side-block">
+          <h3>Output</h3>
+          <canvas id="scope" title="Output scope"></canvas>
+          <div class="mini-row"><label>Master</label><input id="master" type="range" min="0" max="1.2" step="0.01" value="0.8"></div>
+        </div>
+        <div class="side-block">
+          <h3>Tuning</h3>
+          <div class="tune-grid">
+            <div class="field"><label>Rings</label><select id="rings"></select></div>
+            <div class="field"><label>Key</label><select id="key"></select></div>
+            <div class="field"><label>Octave</label><select id="octave"></select></div>
+            <div class="field wide"><label>Scale</label><select id="scale"></select></div>
+          </div>
+        </div>
+        <div id="lanes" class="lane-list"></div>
+      </aside>
+      <section class="stage" id="stage">
+        <canvas id="sonar"></canvas>
+        <div class="stage-hint" id="hint">Click a ring to place a note · Click a note to edit its sound · Drag to move · Right-click to delete · Click the centre to play</div>
+      </section>
+      <aside class="panel" id="panel"></aside>
+    </main>
+  </div>
+
+  <div id="modalRoot"></div>
+  <div id="toast"></div>
+  <input type="file" id="fileInput" accept=".orbit,application/json" hidden>
+
+  <script src="vendor/lame.min.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/exporters.js"></script>
+  <script src="js/knob.js"></script>
+  <script src="js/sonar.js"></script>
+  <script src="js/panel.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
